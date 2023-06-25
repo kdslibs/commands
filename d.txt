@@ -1,4 +1,4 @@
-"TSF-LIB
+TSF-LIB
 ##HEADER##from statsmodels.tsa.seasonal     import seasonal_decompose, STL
 from statsmodels.tsa.api import Holt
 from statsmodels.tsa.statespace.sarimax import SARIMAX
@@ -28,11 +28,11 @@ from statsmodels.tsa.statespace.sarimax   import  SARIMAX
 from statsmodels.tsa.api                  import  ExponentialSmoothing
 from statsmodels.tsa.ar_model       import AutoReg
 from statsmodels.tsa.arima_model import ARMA
+import statsmodels as sm
 
 
 import warnings
 warnings.filterwarnings(""ignore"")
-
 ###ENDOFSEGMENT###TSF-DATE
 ##HEADER##pd.read_csv('file', parse_dates = ['col1'], index_col = 'Year-Month')
 pd.date_range(start='', end='', freq='M/D/Q')
@@ -502,6 +502,22 @@ phi_1 = 0.5
 phi_2= -0.5
 num_samples =  150
 
+SEED = 42
+np.random.seed(SEED)
+# Visualizations
+lag_acf = 15
+lag_pacf = 15
+height = 4
+width = 12
+T = 12
+time = np.arange(0, 48)
+random_walk = [0]
+
+for i in range(1, 48):
+    # Movement direction based on a random number
+    num = -1 if np.random.random() < 0.5 else 1
+    random_walk.append(random_walk[-1] + num)
+    
 f, ax = plt.subplots(nrows=10, ncols=3, figsize=(2*width, 10*height))
 
 ### AR(1) ###
@@ -667,4 +683,4 @@ for i in range(9):
 f.delaxes(ax[8, 0])
 plt.tight_layout()
 plt.show()
-###ENDOFSEGMENT###"
+###ENDOFSEGMENT###
