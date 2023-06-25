@@ -1,0 +1,61 @@
+"TEST
+##HEADER##from statsmodels.tsa.seasonal     import seasonal_decompose, STL
+
+###ENDOFSEGMENT###"
+
+"TSFLIB
+##HEADER##from statsmodels.tsa.seasonal     import seasonal_decompose, STL
+
+###ENDOFSEGMENT###"
+"TSFDATE
+##HEADER##pd.read_csv('file', parse_dates = ['col1'], index_col = 'Year-Month')
+pd.date_range(start='', end='', freq='M/D/Q')
+df2.set_index('col')
+###ENDOFSEGMENT###"
+"TSFPLOT
+##HEADER##df1.plot(figsize=(12,8),grid=True)
+
+###ENDOFSEGMENT###"
+"TSFIMPUTE
+##HEADER##df.fillna(df.rolling(6,min_periods=1).mean())
+df_imputed= df.interpolate(method = 'linear')
+###ENDOFSEGMENT###"
+"TSFCONVERT
+##HEADER##df.resample('Q').sum()
+###ENDOFSEGMENT###"
+"TSFDECOMPOSE
+##HEADER##decomposition = seasonal_decompose(df,model='additive')
+decomposition.plot();
+
+decomposition = STL(df1).fit()
+decomposition.plot();
+
+decomposition = STL(np.log10(df1)).fit()
+decomposition.plot();
+###ENDOFSEGMENT###"
+"TSFMA
+##HEADER##df5.rolling(5).mean()
+plt.plot(df5, label='closing price')
+plt.plot(df5.rolling(30).mean(), label='Moving Average')
+
+m=[]
+rolling=2
+for app in range(1,rolling):
+  m.append(""0"")
+for eachRow in range(rolling-1,df1.shape[0]):
+  #print(df1.iloc[eachRow][""Pax""], df1.iloc[eachRow-1][""Pax""], df1.iloc[eachRow-2][""Pax""])
+  mi=0
+  for eachRolling in range(0,rolling):
+    mi+=df1.iloc[eachRow-eachRolling][""Pax""]
+  mi=mi/rolling
+  m.append(mi)
+df1[""moving""]=m
+###ENDOFSEGMENT###"
+"TSFYEARLY
+##HEADER##months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October','November', 'December']
+yearly_sales_across_years = pd.pivot_table(df1, values = 'Pax', columns = df1.index.year,index = df1.index.month_name())
+yearly_sales_across_years = yearly_sales_across_years.reindex(index = months)
+yearly_sales_across_years.plot()
+plt.grid()
+plt.legend(loc='best');
+###ENDOFSEGMENT###"
