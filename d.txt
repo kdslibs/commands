@@ -1,4 +1,378 @@
-TSF-LIB
+US-LIB
+##HEADER##import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+from warnings import filterwarnings
+filterwarnings('ignore')
+###ENDOFSEGMENT###US-BOX
+##HEADER##for i in df_num.columns:
+    sns.boxplot(df_num[i])
+    plt.show()
+###ENDOFSEGMENT###US-SCALE
+##HEADER##from sklearn.preprocessing import StandardScaler
+sc=StandardScaler()
+df_sc=sc.fit_transform(df1)
+df_sc=pd.DataFrame(df_sc,columns=df1.columns)
+df_sc.head()
+###ENDOFSEGMENT###US-KMEANS
+##HEADER##from sklearn.cluster import Kmeans
+err=[]
+for i in range(1,10):
+    km=KMeans(n_clusters=i)
+    km.fit(df_sc)
+    err.append(km.inertia_)
+
+plt.plot(range(1,21),err,marker=""*"")
+plt.xlabel(""K value"")
+plt.ylabel(""Error"")
+plt.axvline(5,color=""r"")
+
+df1['label']=km.labels_
+
+km.cluster_centers_
+
+sns.scatterplot(df1['Annual_Income_(k$)'],df1['Spending_Score'],hue=df1['label'],palette=['red','blue','green',
+                                                                                           'yellow','brown'])
+palette=['green','orange','brown','dodgerblue','red'])
+palette='colorblind'
+
+for i,j in km5.cluster_centers_:
+  plt.plot(i,j,marker=""x"",markersize=15)
+plt.show
+###ENDOFSEGMENT###US-SIL
+##HEADER##from yellowbrick.cluster import SilhouetteVisualizer
+from sklearn.metrics import silhouette_score
+err=[]
+for i in range(2,10):
+    km=KMeans(n_clusters=i)
+    km.fit(df_sc)
+    sil_score = silhouette_score(df_sc,km.labels_)
+    print('Silhouette_Score for ',i ,'clusters is',sil_score)
+
+
+kms=KMeans(n_clusters=5)
+sil_vi=SilhouetteVisualizer(kms)
+sil_vi.fit(scaled_dfnum)
+plt.show()
+###ENDOFSEGMENT###US-KMEANS++
+##HEADER##dataf=pd.DataFrame(data)
+kmpp1=KMeans(n_clusters=4,init='random',random_state=4)
+kmpp=KMeans(n_clusters=4,init='k-means++')
+kmpp1.fit(dataf)
+###ENDOFSEGMENT###US-Distance
+##HEADER##from scipy.spatial import minkowski_distance
+from scipy.spatial.distance import cityblock
+from scipy.spatial.distance import euclidean
+###ENDOFSEGMENT###US-ELBOW
+##HEADER##from yellowbrick.cluster import KElbowVisualizer
+model = KMeans()
+visualize = KElbowVisualizer(model, k=(1,14))
+visualize.fit(df)
+visualize.poof()
+###ENDOFSEGMENT###US-IRIS
+##HEADER##from sklearn.datasets import load_iris
+df=pd.DataFrame(load_iris().data,columns= load_iris().feature_names)
+df[""target""]=load_iris().target
+model=KMeans(n_clusters=3,n_init=""auto"")
+model.fit(df)
+df[""predicted""]=model.labels_
+sns.pairplot(data=df.iloc[:,0:5],hue=""target"", corner = True)
+
+iris_data_normalize=iris_data.apply(lambda x:normalize(x))
+def normalize(col):
+  return (col-col.min())/(col.max()-col.min())
+###ENDOFSEGMENT###US-LINKAGE
+##HEADER##from scipy.cluster.hierarchy import dendrogram,linkage
+X1=np.array([[1,1],[3,2],[9,1],[3,7],[7,2],[9,7],[4,8],[8,3],[1,4]])
+z_x2_1=linkage(X2, method=""single"", metric=""euclidean"")
+z_x2_2=linkage(X2, method=""average"", metric=""euclidean"")
+z_x2_3=linkage(X2, method=""complete"", metric=""euclidean"")
+z_x2_4=linkage(X2, method=""centroid"", metric=""euclidean"")
+z1=linkage(X1, method=""single"", metric=""euclidean"")
+plt.figure(figsize=(15,10))
+dendrogram(z1)
+plt.show()
+
+from scipy.cluster.hierarchy import dendrogram,linkage,fcluster
+Z=linkage(x2, method=""ward"",metric=""euclidean"")
+countryname=list(df_protein['Country'])
+plt.figure(figsize=(14,15))
+dendrogram(Z, orientation=""right"",labels=countryname, show_leaf_counts=False,leaf_font_size=14)
+plt.show()
+
+df_protein[""labels""]=fcluster(Z,4,criterion=""maxclust"")
+
+
+from scipy.cluster.hierarchy import linkage,cophenet
+from scipy.spatial.distance import pdist
+c1,coph_dist1 =cophenet(z1, pdist(iris_data_normalize,""euclidean""))
+###ENDOFSEGMENT###US-DBSCAN
+##HEADER##from sklearn.cluster import DBSCAN
+clustering=DBSCAN(eps=8.5,min_samples=4).fit(mall_df_filter)
+dataset.loc[:,""cluster""]=clustering.labels_
+
+
+from sklearn.metrics import silhouette_score
+ silhouette_score(df_countryStatus_dbscan[selectedFeatures], labels)
+
+###ENDOFSEGMENT###US-KNN
+##HEADER##
+from sklearn.neighbors import NearestNeighbors
+neigh = NearestNeighbors(n_neighbors=11)
+nbrs = neigh.fit(df_dbscan)
+distances, indices = nbrs.kneighbors(df_dbscan)
+distances = np.sort(distances, axis=0)
+distances = distances[:,1]
+plt.rcParams['figure.figsize'] = 8,8
+plt.plot(distances)
+###ENDOFSEGMENT###US-FCM
+##HEADER##pip install fuzzy-c-means
+from fcmeans import FCM
+
+fcm = FCM(n_clusters=3)
+fcm.fit(data.values)
+
+# outputs
+fcm_centers = fcm.centers
+fcm_labels = fcm.predict(data.values) 
+
+cat = {0:'Need Help',1:'Might need help',2:'No Help needed'}
+df_countryStatus_fc['fcm_labels']=df_countryStatus_fc[""Fuzzy_cluster""].map(cat)
+
+
+###ENDOFSEGMENT###US-MAP
+##HEADER##
+import plotly.express as px
+px.choropleth(data_frame=df_countryStatus_fc, locationmode='country names', locations=df_countryStatus_fc.index, color=df_countryStatus_fc['fcm_labels'], 
+              color_discrete_map={'Need Help':'#DB1C18','Might need help':'#FFDB3B','No Help needed':'#88DF0B'} ,projection='equirectangular')		  
+###ENDOFSEGMENT###US-HEAT
+##HEADER##sns.heatmap(df_countryStatus_dbscan.corr(),annot=True,cmap=""RdYlBu"",cbar = False)
+###ENDOFSEGMENT###US-PAIR
+##HEADER##sns.pairplot(data=df.iloc[:,0:5],hue=""target"", corner = True)
+###ENDOFSEGMENT###US-PCA
+##HEADER##from sklearn.decomposition import PCA
+pca=PCA()
+pca.fit(scaled_df)
+plt.figure(figsize=(12,8))
+plt.bar(x=list(range(1,754)), height=pca.explained_variance_ratio_,color='black')
+plt.xlabel('Components',fontsize=12)
+plt.ylim(0,0.06)
+plt.xlim(0,100)
+plt.ylabel('Variance%',fontsize=12)
+plt.title('Variance of Components',fontsize=15)
+plt.show()
+
+pca=PCA(n_components=3)
+pca.fit(scaled_df)
+X_pca=pca.transform(scaled_df)
+X_pca
+
+import plotly.express as px
+import plotly.io as pio
+import plotly.graph_objects as go
+
+fig=px.scatter_3d(data_frame=df,x=X_pca[:,0],y=X_pca[:,1],z=X_pca[:,2], color=labels, color_continuous_scale='emrld')
+fig=px.scatter_3d(x=X_pca[:,0],y=X_pca[:,1],z=X_pca[:,2])
+fig.update_layout(
+    title={
+        'text': 'First vs. Second vs. Third Principal Components',
+        'y':0.92,
+        'x':0.5,
+        'xanchor': 'center',
+        'yanchor': 'top'})
+fig.show(renderer=""colab"")
+###ENDOFSEGMENT###US-SVD
+##HEADER##import time
+
+from PIL import Image
+import requests
+from io import BytesIO
+
+img = Image.open('Delicate-Arch.png')
+imggray = img.convert('LA')
+plt.figure(figsize=(8,6))
+plt.imshow(imggray)
+
+imgmat = np.array(list(imggray.getdata(band=0)), float)
+imgmat.shape = (imggray.size[1], imggray.size[0])
+imgmat = np.matrix(imgmat)
+plt.figure(figsize=(9,6))
+plt.imshow(imgmat, cmap='gray')
+
+U, sigma, V = np.linalg.svd(imgmat)
+
+reconstimg = np.matrix(U[:, :1]) * np.diag(sigma[:1]) * np.matrix(V[:1, :])
+plt.imshow(reconstimg, cmap='gray');
+
+for i in range(2, 4):
+    reconstimg = np.matrix(U[:, :i]) * np.diag(sigma[:i]) * np.matrix(V[:i, :])
+    plt.imshow(reconstimg, cmap='gray')
+    title = ""n = %s"" % i
+    plt.title(title)
+    plt.show()
+###ENDOFSEGMENT###US-RANDOMFOREST
+##HEADER##from sklearn.ensemble import RandomForestClassifier
+
+classifier = RandomForestClassifier(max_depth=2, random_state=0)
+classifier.fit(X_trainpca, y_train)
+
+# Predicting the Test set results
+y_pred = classifier.predict(X_testpca)
+###ENDOFSEGMENT###US-CONFUSION
+##HEADER### Predicting the Test set results
+y_pred = classifier.predict(X_testpca)
+
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import accuracy_score
+
+cm = confusion_matrix(y_test, y_pred)
+print(cm)
+print('Accuracy' + str(accuracy_score(y_test, y_pred)))
+
+cm = confusion_matrix(ytest, y_pred_full_0_5)
+TN,FP,FN,TP = cm[0][0],cm[0][1],cm[1][0],cm[1][1]
+precision = (TP) /(TP+FP)
+recall = (TP) /(TP+FN)
+specificity=TN/(TN+FP)
+f1_score=(2 *precision * recall) /(precision + recall)
+
+print(""Precision:"",precision)
+print(""Recall:"",recall)
+print(""f1 score:"",f1_score)
+###ENDOFSEGMENT###US-LDA
+##HEADER##
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
+
+lda = LDA(n_components=2)
+X_trainl = lda.fit_transform(X_trains, y_train)
+X_testl = lda.transform(X_tests)
+###ENDOFSEGMENT###US-POPULARITY
+##HEADER##movie_data=pd.merge(ratings_data,movie_names,on='movieId')
+trend=pd.DataFrame(movie_data.groupby('title')['rating'].mean())
+trend['total number of ratings'] = pd.DataFrame(movie_data.groupby('title')['rating'].count()) 
+trend.head()
+
+ax=plt.barh(trend['rating'].round(),trend['total number of ratings'],color='b')
+plt.show()
+
+plt.figure(figsize =(10, 4))
+ax=plt.subplot()
+ax.bar(trend.head(25).index,trend['total number of ratings'].head(25),color='b')
+ax.set_xticklabels(trend.index,rotation=40,fontsize='12',horizontalalignment=""right"")
+ax.set_title(""Total Number of reviews for each movie"")
+plt.show()
+movie_data.groupby('title')['rating'].mean().sort_values(ascending=False).head(25)
+###ENDOFSEGMENT###US-USER
+##HEADER##df_movies_ratings = df_movies.merge(df_ratings, on='movieId', how='left')
+df_user_ratings = df_movies_ratings.pivot_table(index='userId', columns=['title'], values='rating')
+rated_movie = df_user_ratings['Star Wars: Episode IV - A New Hope (1977)']
+similar_movies = df_user_ratings.corrwith(rated_movie)
+similar_movies.dropna(inplace=True)
+similar_movies = pd.DataFrame(similar_movies, columns=['correlation'])
+similar_movies.sort_values(by='correlation', ascending=False).head(5)
+df_movies_ratings['total_ratings'] = df_movies_ratings.groupby('movieId')['rating'].transform('count')
+df_movies_ratings['mean_rating'] = df_movies_ratings.groupby('movieId')['rating'].transform('mean')
+df_movie_statistics = df_movies_ratings[['movieId', 'title', 'total_ratings', 'mean_rating']]
+df_movie_statistics.drop_duplicates('movieId', keep='first', inplace=True)
+
+df_popular_movies = df_movie_statistics['total_ratings'] >= 50
+df_popular_movies = df_movie_statistics[df_popular_movies].sort_values(['total_ratings', 
+                                                    'mean_rating'], ascending=False)
+
+df_popular_movies.sort_values(by='total_ratings', ascending=True).head()
+
+similar_movies = similar_movies.reset_index()
+popular_similar_movies = similar_movies.merge(df_popular_movies, on='title', how='left')
+popular_similar_movies = popular_similar_movies.dropna()
+popular_similar_movies.sort_values(by='correlation', ascending=False).head(10)
+
+popular_similar_liked_movies = popular_similar_movies[popular_similar_movies['mean_rating'] >= 4]
+popular_similar_liked_movies.sort_values(by='correlation', ascending=False).head(10)
+
+###ENDOFSEGMENT###US-ITEM
+##HEADER##trend=pd.DataFrame(movie_data.groupby('title')['rating'].mean())
+trend['total number of ratings'] = pd.DataFrame(movie_data.groupby('title')['rating'].count()) 
+trend.head()
+
+ax=plt.barh(trend['rating'].round(),trend['total number of ratings'],color='b')
+plt.show()
+
+plt.figure(figsize =(10, 4))
+ax=plt.subplot()
+ax.bar(trend.head(25).index,trend['total number of ratings'].head(25),color='b')
+ax.set_xticklabels(trend.index,rotation=40,fontsize='12',horizontalalignment=""right"")
+ax.set_title(""Total Number of reviews for each movie"")
+plt.show()
+movie_data.groupby('title')['rating'].mean().sort_values(ascending=False).head(25)
+
+
+my_df = pd.read_csv('u.data', sep='\t', names=['user_id','item_id','rating','timestamp'])
+movie_titles = pd.read_csv('Movie_Titles.csv',encoding= 'unicode_escape')
+my_df = pd.merge(my_df, movie_titles, on='item_id')
+ratings = pd.DataFrame(my_df.groupby('title')['rating'].mean())
+ratings['number_of_ratings'] = my_df.groupby('title')['rating'].count()
+sns.jointplot(x='rating', y='number_of_ratings', data=ratings)
+
+movie_matrix_UII = my_df.pivot_table(index='user_id', columns='title', values='rating')
+Fargo_user_rating = movie_matrix_UII['Fargo (1996)']
+similar_to_fargo=movie_matrix_UII.corrwith(Fargo_user_rating)
+corr_fargo = pd.DataFrame(similar_to_fargo, columns=['Correlation'])
+corr_fargo.dropna(inplace=True)
+corr_fargo = corr_fargo.join(ratings['number_of_ratings'])
+corr_fargo[corr_fargo['number_of_ratings'] > 30].sort_values(by='Correlation', ascending=False).head(10)
+###ENDOFSEGMENT###US-TESTTRAIN
+##HEADER##from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
+###ENDOFSEGMENT###US-LIB2
+##HEADER##import pandas as pd
+import numpy as np 
+import matplotlib.pyplot as plt 
+import seaborn as sns
+
+#KMEANS
+from sklearn.cluster import KMeans
+from sklearn.metrics import silhouette_score
+from yellowbrick.cluster import SilhouetteVisualizer
+from yellowbrick.cluster import KElbowVisualizer
+
+#AGGLOMERATIVE
+from scipy.cluster.hierarchy import linkage,dendrogram,cophenet,fcluster
+from scipy.spatial.distance import pdist
+
+#DBSCAN
+from sklearn.cluster import DBSCAN
+from sklearn.neighbors import NearestNeighbors 
+
+#FCM
+from fcmeans import FCM
+
+#PCA
+from sklearn.decomposition import PCA
+
+#SVD
+from PIL import Image
+
+#LDA
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
+from sklearn.ensemble import RandomForestClassifier
+
+#iris
+from sklearn.datasets import load_iris
+
+#Test Train split 
+from sklearn.model_selection import train_test_split
+
+#Evaluation
+from sklearn.metrics import confusion_matrix, accuracy_score
+
+#Normalization
+from sklearn.preprocessing import StandardScaler
+
+import warnings
+warnings.filterwarnings(""ignore"")
+###ENDOFSEGMENT###TSF-LIB
 ##HEADER##from statsmodels.tsa.seasonal     import seasonal_decompose, STL
 from statsmodels.tsa.api import Holt
 from statsmodels.tsa.statespace.sarimax import SARIMAX
@@ -25,11 +399,16 @@ from statsmodels.graphics.gofplots        import  qqplot
 from statsmodels.tsa.seasonal             import  seasonal_decompose
 from statsmodels.tsa.arima_model          import  ARIMA
 from statsmodels.tsa.statespace.sarimax   import  SARIMAX
+from pmdarima import auto_arima
+from statsmodels.tsa.stattools import adfuller
+from statsmodels.tools.eval_measures import mse,rmse
+from statsmodels.tsa.statespace.varmax import VARMAX,VARMAXResults
+
 from statsmodels.tsa.api                  import  ExponentialSmoothing
 from statsmodels.tsa.ar_model       import AutoReg
 from statsmodels.tsa.arima_model import ARMA
 import statsmodels as sm
-
+pip install pmdarima
 
 import warnings
 warnings.filterwarnings(""ignore"")
@@ -90,7 +469,7 @@ ax.set_xlabel('Date')
 ax.set_ylabel('Hospitalized')
 ax.legend()
 plt.show()
-###ENDOFSEGMENT###TSF-MA
+###ENDOFSEGMENT###TSF-MACODE
 ##HEADER##df5.rolling(5).mean()
 plt.plot(df5, label='closing price')
 plt.plot(df5.rolling(30).mean(), label='Moving Average')
@@ -401,6 +780,14 @@ pl.yticks(fontsize=18)
 ###ENDOFSEGMENT###TSF-DIFF
 ##HEADER##odds_diff=np.diff(df[""Pax""],n=1)
 
+actual=lag1 + diff1.cumsum 
+diff1= (lag1-lag2) + diff2.cumsum()
+
+nobs=20
+df_forecast['Spending_Forcast_1D'] = (df_cons['Spending'].iloc[-nobs-1]-df_cons['Spending'].iloc[-nobs-2]) + df_forecast['Spending_Forcast_2D'].cumsum()
+df_forecast['Spending_Forcast'] = df_cons['Spending'].iloc[-nobs-1] + df_forecast['Spending_Forcast_1D'].cumsum()
+
+df_cons[""Money""].iloc[-nops-1]+ (df_cons[""Money""].iloc[-nops-1]-df_cons[""Money""].iloc[-nops-2] +test[""Money-2D""].cumsum()).cumsum()
 ###ENDOFSEGMENT###TSF-ACVF_CODE
 ##HEADER##data = [27, 28, 29, 30, 32, 32, 33]
 ##(Create a Matrix $Z$ for the data set)
@@ -683,4 +1070,90 @@ for i in range(9):
 f.delaxes(ax[8, 0])
 plt.tight_layout()
 plt.show()
+###ENDOFSEGMENT###TSF-COMPARE
+##HEADER##plt.figure(figsize=(15,5))
+plt.plot(train.index, train[""Gasoline Prices""], label='Training Data')
+plt.plot(test.index, test['Gasoline Prices'], label='Test Data')
+plt.plot(test.index, test[""Pred_MA_11_cumsum""], label='Predictions -MA(11)')
+plt.plot(test.index, test[""Pred_AR_20_cumsum""], label='Predictions -AR(20)')
+plt.title(""All model comparison"")
+plt.legend()
+plt.show()
+###ENDOFSEGMENT###TSF-VAR
+##HEADER##from statsmodels.tsa.vector_ar.var_model import VAR
+model=VAR(train)
+model_results=model.fit(5)
+model_results.summary()
+model_results.forecast(train.values,steps=20)
+
+###ENDOFSEGMENT###TSF-VARMA
+##HEADER##model = VARMAX(train, order=(1,2), trend='c') # c indicates a constant trend
+results = model.fit(maxiter=1000, disp=False)
+results.summary()
+df_forecast = results.forecast(12) 
+df_forecast
+df_forecast['Money1d'] = (df['Money'].iloc[-nobs-1]-df['Money'].iloc[-nobs-2]) + df_forecast['Money'].cumsum()
+# Now build the forecast values from the first difference set
+df_forecast['MoneyForecast'] = df['Money'].iloc[-nobs-1] + df_forecast['Money'].cumsum()
+
+
+model = VARMAX(train2_diff[[ 'Open', 'High', 'Low', 'Close' ]], order=(0,2)).fit( disp=False)
+result = model.forecast(steps = 30)
+###ENDOFSEGMENT###TSF-AUTOARIMA
+##HEADER##pip install pmdarima
+from pmdarima import auto_arima
+auto_arima(df_cons[""Money""])
+
+
+pq = []
+for name, column in train2_diff[[ 'Open', 'High', 'Low', 'Close'  ]].iteritems():
+    print(f'Searching order of p and q for : {name}')
+    stepwise_model = auto_arima(train2_diff[name],start_p=1, start_q=1,max_p=7, max_q=7, seasonal=False,
+        trace=True,error_action='ignore',suppress_warnings=True, stepwise=True,maxiter=1000)
+    parameter = stepwise_model.get_params().get('order')
+    print(f'optimal order for:{name} is: {parameter} \n\n')
+    pq.append(stepwise_model.get_params().get('order'))
+###ENDOFSEGMENT###TSF-ARIMA
+##HEADER##from statsmodels.tsa.arima.model import ARIMA
+from pmdarima import auto_arima
+
+from matplotlib import pyplot
+# load dataset
+auto_arima_model=auto_arima(y_train,trace=True,Supress_warnings=True)
+arima_model_202 = ARIMA(y_train, order=(3,1,3)).fit()
+arima_model_202.summary()
+
+pred_future_10101=arima_model_202.predict(start=len(dataset)+1,end=len(dataset)+(180),dynamic=False)
+print(""The length of pred_future values :"",len(pred_future_10101))
+pred_future_10101
+###ENDOFSEGMENT###TSF-WALK
+##HEADER##history = [x for x in y_train]
+predictions = list()
+from pandas import read_csv
+from pandas import datetime
+from matplotlib import pyplot
+from statsmodels.tsa.arima.model import ARIMA
+from sklearn.metrics import mean_squared_error
+import warnings
+from statsmodels.tools.sm_exceptions import ConvergenceWarning
+warnings.simplefilter('ignore', ConvergenceWarning)
+from math import sqrt
+# walk-forward validation
+for t in range(len(y_test)):
+	model = ARIMA(history, order=(3,1,3))
+	model_fit = model.fit()
+	output = model_fit.forecast()
+	yhat = output[0]
+	predictions.append(yhat)
+	obs = y_test[t]
+	history.append(obs)
+	print('predicted=%f, expected=%f' % (yhat, obs))
+# evaluate forecasts
+rmse = sqrt(mean_squared_error(y_test, predictions))
+print('Test RMSE: %.3f' % rmse)
+###ENDOFSEGMENT###US-PIP
+##HEADER##
+pip install yellowbrick
+pip install fuzzy-c-means
+pip install pmdarima
 ###ENDOFSEGMENT###
